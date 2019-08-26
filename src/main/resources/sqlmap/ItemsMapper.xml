@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wb.mapper.ItemsMapper">
+    <select id="search" parameterType="queryItems" resultType="items">
+        SELECT
+        *
+        FROM
+        items
+        <where>
+            <if test="items!=null">
+                <if test="items.name!=null and items.name!=''">
+                    NAME LIKE '%${items.name}%'
+                </if>
+                <if test="items.detail!=null and items.detail !=''">
+                    AND detail LIKE '%${items.detail}%'
+                </if>
+            </if>
+        </where>
+    </select>
+
+    <select id="findByIds" resultType="items">
+        SELECT
+        *
+        FROM
+        items
+        WHERE
+        <foreach collection="ids" open="id in(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+        <!--id IN (1, 2, 3);-->
+    </select>
+
+</mapper>

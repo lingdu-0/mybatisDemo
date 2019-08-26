@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wb.mapper.MenuMapper">
+    <resultMap id="myMenu" type="menu">
+        <id property="id" column="pid"/>
+        <result property="name" column="pname"/>
+        <collection property="childs" ofType="menu">
+            <id property="id" column="cid"/>
+            <result property="name" column="cname"/>
+        </collection>
+    </resultMap>
+
+
+    <select id="findByChilds" resultMap="myMenu">
+
+    </select>
+    <select id="findByOneChilds" resultMap="myMenu">
+          SELECT
+                p.id pid,
+                p. NAME pname,
+                c.id cid,
+                c. NAME cname
+          FROM
+                t_menu p,
+                t_menu c
+          WHERE
+                c.parent_id = p.id
+          AND
+                p.id = #{id}
+    </select>
+    <select id="findByParent" resultMap="myMenu">
+
+    </select>
+    <select id="findByOneParent" resultMap="myMenu">
+        SELECT
+            p.id pid,
+            p. NAME pname
+        FROM
+            t_menu p,
+            t_menu c
+        WHERE
+            c.parent_id = p.id
+        AND
+            c.id = #{id}
+    </select>
+</mapper>
